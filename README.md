@@ -7,8 +7,8 @@ The script makes use of xmlstarlet, which can be downloaded from http://xmlstar.
 
 INSTALLATION
 
-1.  Copy the .bash-capture script to your home directory.
+1.  Copy the .bash.capture script to your home directory.
 
 2.  Copy the empty .command.log file to your home directory.
 
-3.  Add a "source bash-capture" line to the bottom of your .profile or .bashrc file.
+3.  Add a "source bash.capture" line to the bottom of your .profile or .bashrc file.
