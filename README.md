@@ -1,4 +1,4 @@
-This utility provides an enhanced command history for Bash, keeping track of all commands ever entered in any terminal window as well as the directory in which the command was entered.
+This utility provides an enhanced command history for Bash, keeping track of all commands ever entered in any terminal window as well as the directory in which the command was entered and when.
 
 PREREQUISITES
 
