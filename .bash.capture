@@ -6,21 +6,30 @@
 #
 #   v1.0.0  20150327    BPM initial implementation
 
+source .bash-preexec.sh || exit 1
+
 export COMMANDLOG=${HOME}/.command.log
 export SESSNAME=$(date "+%Y%m%d_%H%M%S")
 
 function writelog
 {
     xmlstarlet ed -L -s /commands -t elem \
-        -n NEW -v "${BASH_COMMAND}" \
+        -n NEW -v "$1" \
         -i //NEW -t attr -n session -v "$SESSNAME" \
         -i //NEW -t attr -n time -v "$(date +%Y%m%d_%H%M%S)" \
         -i //NEW -t attr -n cwd -v "$(pwd)" \
         -i //NEW -t attr -n shell -v "$SHELL" \
+        -i //NEW -t attr -n status -v "$2" \
         -r //NEW -v command \
         $COMMANDLOG
     export BASH_COMMAND=${BASH_COMMAND}
 }
+
 if [ -n "${BASH_VERSION}" ]; then
-    trap "caller >/dev/null || writelog" DEBUG
+  preexec() {
+    SHELLHIST_CMD=$1
+  }
+  precmd() {
+    [ ! -z "$SHELLHIST_CMD" ] && writelog "$SHELLHIST_CMD" $?
+  }
 fi
