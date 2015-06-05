@@ -4,7 +4,8 @@
 #
 #   records history of all commands in all terminals
 #
-#   v1.0.0  20150327    BPM initial implementation
+#   v1.0.2  20150604  BPM  fixed defect where special chars not turned into entities ('&','<','>')
+#   v1.0.0  20150327  BPM  initial implementation
 
 source .bash-preexec.sh || exit 1
 
@@ -13,8 +14,9 @@ export SESSNAME=$(date "+%Y%m%d_%H%M%S")
 
 function writelog
 {
+    CMD=$(echo $1 | sed -e 's~&~\&amp;~g' -e 's~<~\&lt;~g'  -e  's~>~\&gt;~g')
     xmlstarlet ed -L -s /commands -t elem \
-        -n NEW -v "$1" \
+        -n NEW -v "$CMD" \
         -i //NEW -t attr -n session -v "$SESSNAME" \
         -i //NEW -t attr -n time -v "$(date +%Y%m%d_%H%M%S)" \
         -i //NEW -t attr -n cwd -v "$(pwd)" \
